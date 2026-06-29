@@ -1,0 +1,15 @@
+# Dockerfile used only for running tests (includes devDependencies)
+FROM node:18-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+# Install ALL deps (including devDependencies for Jest/Supertest)
+RUN npm ci
+
+COPY . .
+
+ENV NODE_ENV=test
+
+CMD ["npm", "run", "test:ci"]
